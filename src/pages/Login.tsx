@@ -1,7 +1,21 @@
 import { Link } from "react-router-dom";
 import { Mail, Eye } from "lucide-react";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+const loginSchema = z.object({
+  email: z.string().email('Insira um e-mail válido.'),
+  password: z.string().min(6, 'A senha deve ter no mínimo 6 caracteres.')
+});
+
+type LoginFormInputs = z.infer<typeof loginSchema>;
 
 export default function Login() {
+    const { handleSubmit, formState: { errors } } = useForm<LoginFormInputs>({
+    resolver: zodResolver(loginSchema)
+});
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#0B1120] px-4 font-sans text-white">
       <div className="flex flex-col items-center w-full max-w-120 gap-14">
@@ -33,7 +47,7 @@ export default function Login() {
             </p>
           </div>
 
-          <form className="flex flex-col gap-5">
+          <form className="flex flex-col gap-5" onSubmit={handleSubmit(() => {})}>
             <div className="flex flex-col gap-2">
               <label className="text-[14px] leading-5 text-[#FAFAFA]">
                 E-mail
