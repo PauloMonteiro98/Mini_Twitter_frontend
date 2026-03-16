@@ -1,1 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --spacing-btn-h: 56px;
+  --color-twitter-blue: #0D93F2;
+}
