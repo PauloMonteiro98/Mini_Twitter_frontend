@@ -7,6 +7,7 @@ import { useState } from "react";
 import { api } from "../api/axios";
 import { isAxiosError } from "axios";
 import { AuthLayout } from "../layouts/AuthLayout";
+import { Input } from "../components/Input";
 
 const registerSchema = z.object({
   name: z.string().min(2, "Insira o seu nome completo."),
@@ -52,53 +53,31 @@ export default function Register() {
       activeTab="register"
     >
       <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col gap-2">
-          <label className="text-[14px] leading-5 text-[#FAFAFA]">Nome</label>
-          <div className="relative flex items-center">
-            <input
-              type="text"
-              {...register("name")}
-              placeholder="Insira o seu nome"
-              className="w-full h-14.25 bg-[#1D293D] border border-[#62748E] rounded-lg px-4 text-[16px] text-white placeholder-[#62748E] outline-none focus:border-twitter-blue transition-all"
-            />
-            <User className="absolute right-4 h-6 w-6 text-[#62748E]" />
-          </div>
-          {errors.name && (
-            <p className="text-xs text-red-500">{errors.name.message}</p>
-          )}
-        </div>
+        <Input
+          label="Nome"
+          icon={User}
+          placeholder="Insira o seu nome"
+          error={errors.name?.message}
+          {...register("name")}
+        />
 
-        <div className="flex flex-col gap-2">
-          <label className="text-[14px] leading-5 text-[#FAFAFA]">E-mail</label>
-          <div className="relative flex items-center">
-            <input
-              type="email"
-              {...register("email")}
-              placeholder="Insira o seu e-mail"
-              className="w-full h-14.25 bg-[#1D293D] border border-[#62748E] rounded-lg px-4 text-[16px] text-white placeholder-[#62748E] outline-none focus:border-twitter-blue transition-all"
-            />
-            <Mail className="absolute right-4 h-6 w-6 text-[#62748E]" />
-          </div>
-          {errors.email && (
-            <p className="text-xs text-red-500">{errors.email.message}</p>
-          )}
-        </div>
+        <Input
+          label="E-mail"
+          type="email"
+          icon={Mail}
+          placeholder="Insira o seu e-mail"
+          error={errors.email?.message}
+          {...register("email")}
+        />
 
-        <div className="flex flex-col gap-2">
-          <label className="text-[14px] leading-5 text-[#FAFAFA]">Senha</label>
-          <div className="relative flex items-center">
-            <input
-              type="password"
-              {...register("password")}
-              placeholder="Insira a sua senha"
-              className="w-full h-13.75 bg-[#1D293D] border border-[#62748E] rounded-lg px-4 text-[16px] text-white placeholder-[#62748E] outline-none focus:border-twitter-blue transition-all"
-            />
-            <Eye className="absolute right-4 h-6 w-6 text-[#62748E] cursor-pointer" />
-          </div>
-          {errors.password && (
-            <p className="text-xs text-red-500">{errors.password.message}</p>
-          )}
-        </div>
+        <Input
+          label="Senha"
+          type="password"
+          icon={Eye}
+          placeholder="Insira a sua senha"
+          error={errors.password?.message}
+          {...register("password")}
+        />
 
         {authError && (
           <p className="text-center text-sm text-red-500">{authError}</p>
