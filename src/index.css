@@ -6,3 +6,10 @@
   --spacing-btn-h: 56px;
   --color-twitter-blue: #0D93F2;
 }
+
+@layer base {
+  body {
+    @apply bg-[#0B1120] text-white antialiased;
+    min-height: 100vh;
+  }
+}
