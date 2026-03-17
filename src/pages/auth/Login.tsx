@@ -1,3 +1,4 @@
+import { useAuthStore } from "../../store/useAuthStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { isAxiosError } from "axios";
 import { Eye, Loader2, Mail } from "lucide-react";
@@ -6,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { api } from "../../api/axios";
-import { Input } from "../../components/Input/Index";
+import { Input } from "../../components/ui/input/Input";
 import { AuthLayout } from "../../layouts/AuthLayout";
 
 const loginSchema = z.object({
@@ -19,6 +20,7 @@ type LoginFormInputs = z.infer<typeof loginSchema>;
 export default function Login() {
   const navigate = useNavigate();
   const [authError, setAuthError] = useState<string | null>(null);
+  const loginUser = useAuthStore((state) => state.login);
 
   const {
     register,
@@ -33,6 +35,7 @@ export default function Login() {
     try {
       const response = await api.post("/auth/login", data);
       localStorage.setItem("@MiniTwitter:token", response.data.token);
+      loginUser(response.data.user, response.data.token);
       navigate("/timeline");
     } catch (error: unknown) {
       if (isAxiosError(error)) {

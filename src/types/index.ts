@@ -3,16 +3,26 @@ export interface User {
   name: string;
   email: string;
 }
+export interface AuthState {
+  user: User | null;
+  isAuthenticated: boolean;
+  login: (userData: User, token: string) => void;
+  logout: () => void;
+}
 
 export interface Post {
-  id: string;
+  id: number;
   title: string;
   content: string;
-  imageUrl?: string;
+  image: string | null;
   likesCount: number;
-  authorId: string;
+  authorId: number;
+  authorName: string;
   createdAt: string;
-  author: {
-    name: string;
-  };
 }
+
+export type PostUpdatePayload = {
+  title: string;
+  content: string;
+  image?: string; 
+};
