@@ -91,7 +91,7 @@ export default function PostCard({ post }: PostProps) {
   const username = authorName.toLowerCase().replace(/\s+/g, "");
 
   return (
-    <div className="group relative flex w-160 flex-col gap-3 rounded-xl border border-[#62748E] bg-[#1D293D] p-4 shadow-sm">
+    <div className="group relative flex w-160 flex-col gap-5.5 rounded-xl border border-[#62748E] bg-[#1D293D] p-4 shadow-sm">
       {isOwner && !isEditing && (
         <div className="absolute right-4 top-4 flex gap-2 opacity-0 transition-all group-hover:opacity-100">
           <button

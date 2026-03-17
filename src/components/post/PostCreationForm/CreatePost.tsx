@@ -102,7 +102,7 @@ export default function CreatePost() {
   };
 
   return (
-    <div className="flex w-160 flex-col rounded-xl border border-[#62748E] bg-[#1D293D] p-4 shadow-sm">
+    <div className="flex w-160 min-h-41.25 flex-col rounded-xl border border-[#62748E] bg-[#1D293D] p-4 shadow-sm">
       <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col">
         <textarea
           placeholder="E aí, o que está rolando?"
