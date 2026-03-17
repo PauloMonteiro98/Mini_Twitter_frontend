@@ -36,10 +36,19 @@ export default function Register() {
       navigate("/login");
     } catch (error: unknown) {
       if (isAxiosError(error)) {
-        setAuthError(
-          error.response?.data?.message ||
-            "Ocorreu um erro ao criar sua conta.",
-        );
+        const status = error.response?.status;
+        const apiMessage = error.response?.data?.message;
+
+        if (status === 400) {
+          setAuthError(
+            apiMessage ||
+              "Este e-mail já está sendo utilizado por outra conta.",
+          );
+        } else if (status === 500) {
+          setAuthError("Erro interno no servidor. Tente novamente mais tarde.");
+        } else {
+          setAuthError(apiMessage || "Ocorreu um erro ao criar sua conta.");
+        }
       } else {
         setAuthError("Ocorreu um erro inesperado.");
       }

@@ -1,4 +1,4 @@
-import { useAuthStore } from '../../store/useAuthStore';
+import { useAuthStore } from "../../store/useAuthStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { isAxiosError } from "axios";
 import { Eye, Loader2, Mail } from "lucide-react";
@@ -21,7 +21,7 @@ export default function Login() {
   const navigate = useNavigate();
   const [authError, setAuthError] = useState<string | null>(null);
   const loginUser = useAuthStore((state) => state.login);
-  
+
   const {
     register,
     handleSubmit,
