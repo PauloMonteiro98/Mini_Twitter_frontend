@@ -82,7 +82,7 @@ export default function Timeline() {
           Mini Twitter
         </h1>
 
-        <div className="flex h-10 w-160 items-center gap-2 rounded-lg bg-[#1D293D] px-4 border border-transparent focus-within:border-[#0D93F2] transition-all">
+        <div className="flex h-10 w-160 items-center gap-2 rounded-lg bg-[#1D293D] px-4 border border-transparent focus-within:border-twitter-blue transition-all">
           <Search className="h-5 w-5 text-[#62748E]" />
           <input
             type="text"
@@ -105,7 +105,7 @@ export default function Timeline() {
 
               <Link
                 to="/login"
-                className="flex h-10 items-center justify-center rounded-full bg-[#0D93F2] px-15 text-sm font-bold text-white shadow-[0_4px_10px_rgba(13,147,242,0.3)] transition-all hover:bg-[#0B7DCE]"
+                className="flex h-10 items-center justify-center rounded-full bg-twitter-blue px-15 text-sm font-bold text-white shadow-[0_4px_10px_rgba(13,147,242,0.3)] transition-all hover:bg-[#0B7DCE]"
               >
                 Login
               </Link>
