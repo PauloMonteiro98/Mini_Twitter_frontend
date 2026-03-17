@@ -9,7 +9,11 @@ import type { Post } from "../../types";
 export default function Timeline() {
   const navigate = useNavigate();
 
-  const { data: posts, isLoading, isError } = useQuery<Post[]>({
+  const {
+    data: posts,
+    isLoading,
+    isError,
+  } = useQuery<Post[]>({
     queryKey: ["posts"],
     queryFn: async () => {
       const response = await api.get("/posts");
@@ -26,23 +30,22 @@ export default function Timeline() {
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-[#0F172B] to-[#070B14]">
-      
-      <header className="fixed top-0 z-50 flex h-[65px] w-full items-center justify-between border-b border-[#62748E] bg-[#0F172B]/80 px-10 backdrop-blur-md">
-        <h1 className="w-[150px] text-[18px] font-bold tracking-tight text-white">
+    <div className="relative min-h-screen bg-linear-to-br from-[#0F172B] to-[#070B14]">
+      <header className="fixed top-0 z-50 flex h-16.25 w-full items-center justify-between border-b border-[#62748E] bg-[#0F172B]/80 px-10 backdrop-blur-md">
+        <h1 className="w-37.5 text-[18px] font-bold tracking-tight text-white">
           Mini Twitter
         </h1>
 
-        <div className="flex h-10 w-[640px] items-center gap-2 rounded-lg bg-[#1D293D] px-4">
+        <div className="flex h-10 w-160 items-center gap-2 rounded-lg bg-[#1D293D] px-4">
           <Search className="h-5 w-5 text-[#62748E]" />
-          <input 
-            type="text" 
-            placeholder="Buscar por post..." 
+          <input
+            type="text"
+            placeholder="Buscar por post..."
             className="w-full bg-transparent text-sm text-white placeholder-[#62748E] outline-none"
           />
         </div>
 
-        <div className="flex w-[150px] justify-end">
+        <div className="flex w-37.5 justify-end">
           <button
             onClick={handleLogout}
             className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1D293D] text-white transition-colors hover:bg-red-500/20 hover:text-red-500"
@@ -52,13 +55,12 @@ export default function Timeline() {
         </div>
       </header>
 
-      <main className="mx-auto flex w-[640px] flex-col gap-6 pb-20 pt-[97px]">
-        
+      <main className="mx-auto flex w-160 flex-col gap-6 pb-20 pt-24.25">
         <CreatePost />
 
         {isLoading && (
           <div className="flex h-40 items-center justify-center">
-            <Loader2 className="h-8 w-8 animate-spin text-[#0D93F2]" />
+            <Loader2 className="h-8 w-8 animate-spin text-twitter-blue" />
           </div>
         )}
 
@@ -73,7 +75,6 @@ export default function Timeline() {
             <PostCard key={post.id} post={post} />
           ))}
         </div>
-
       </main>
     </div>
   );
