@@ -3,6 +3,12 @@ export interface User {
   name: string;
   email: string;
 }
+export interface AuthState {
+  user: User | null;
+  isAuthenticated: boolean;
+  login: (userData: User, token: string) => void;
+  logout: () => void;
+}
 
 export interface Post {
   id: number;
@@ -15,9 +21,8 @@ export interface Post {
   createdAt: string;
 }
 
-export interface AuthState {
-  user: User | null;
-  isAuthenticated: boolean;
-  login: (userData: User, token: string) => void;
-  logout: () => void;
-}
+export type PostUpdatePayload = {
+  title: string;
+  content: string;
+  image?: string; 
+};
