@@ -1,3 +1,4 @@
+import { useAuthStore } from "../../store/useAuthStore";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2, LogOut, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -5,10 +6,10 @@ import { api } from "../../api/axios";
 import CreatePost from "../../components/post/PostCreationForm/CreatePost";
 import PostCard from "../../components/post/PostViewCard/PostCard";
 import type { Post } from "../../types";
-
 export default function Timeline() {
   const navigate = useNavigate();
-
+  const logoutUser = useAuthStore((state) => state.logout);
+  
   const {
     data: posts,
     isLoading,
@@ -26,6 +27,7 @@ export default function Timeline() {
 
   const handleLogout = () => {
     localStorage.removeItem("@MiniTwitter:token");
+    logoutUser();
     navigate("/login");
   };
 

@@ -1,3 +1,4 @@
+import { useAuthStore } from "../../../store/useAuthStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Heart, Loader2, Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -13,6 +14,8 @@ export default function PostCard({ post }: PostProps) {
   const [likesCount, setLikesCount] = useState(post.likesCount);
   const [isLikedLocally, setIsLikedLocally] = useState(false);
   const authorName = post?.authorName || "Anônimo";
+  const { user } = useAuthStore();
+  const isOwner = user?.id === String(post.authorId);
   const username = authorName.toLowerCase().replace(/\s+/g, "");
   const formattedDate = post?.createdAt
     ? new Intl.DateTimeFormat("pt-BR", {
@@ -51,6 +54,20 @@ export default function PostCard({ post }: PostProps) {
 
   return (
     <div className="flex w-160 flex-col items-start gap-3 rounded-xl border border-[#62748E] bg-[#1D293D] p-4 shadow-sm relative group">
+      {isOwner && (
+        <button
+          onClick={() => deleteMutation.mutate()}
+          disabled={deleteMutation.isPending}
+          className="absolute right-4 top-4 text-[#62748E] opacity-0 transition-all hover:text-red-500 group-hover:opacity-100 disabled:opacity-50"
+          title="Deletar post"
+        >
+          {deleteMutation.isPending ? (
+            <Loader2 className="h-5 w-5 animate-spin" />
+          ) : (
+            <Trash2 className="h-5 w-5" />
+          )}
+        </button>
+      )}
       <button
         onClick={() => deleteMutation.mutate()}
         disabled={deleteMutation.isPending}

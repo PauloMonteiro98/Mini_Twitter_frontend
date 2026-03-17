@@ -14,3 +14,10 @@ export interface Post {
   authorName: string;
   createdAt: string;
 }
+
+export interface AuthState {
+  user: User | null;
+  isAuthenticated: boolean;
+  login: (userData: User, token: string) => void;
+  logout: () => void;
+}
