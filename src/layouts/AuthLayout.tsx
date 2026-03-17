@@ -15,7 +15,7 @@ export function AuthLayout({
   activeTab,
 }: AuthLayoutProps) {
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="flex min-h-screen items-start justify-center pt-25">
       <div className="flex flex-col items-center w-full max-w-120 gap-14">
         <div className="text-center">
           <h1 className="text-[40px] font-bold leading-12 tracking-[-0.27px] text-white">

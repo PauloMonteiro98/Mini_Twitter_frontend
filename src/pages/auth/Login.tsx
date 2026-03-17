@@ -1,13 +1,13 @@
-import { Mail, Eye, Loader2 } from "lucide-react";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { api } from "../api/axios";
 import { isAxiosError } from "axios";
-import { AuthLayout } from "../layouts/AuthLayout";
-import { Input } from "../components/Input";
+import { Eye, Loader2, Mail } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { z } from "zod";
+import { api } from "../../api/axios";
+import { Input } from "../../components/Input/Index";
+import { AuthLayout } from "../../layouts/AuthLayout";
 
 const loginSchema = z.object({
   email: z.email("Insira um e-mail válido."),
