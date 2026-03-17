@@ -12,8 +12,7 @@ export default function PostCard({ post }: PostProps) {
   const queryClient = useQueryClient();
   const [likesCount, setLikesCount] = useState(post.likesCount);
   const [isLikedLocally, setIsLikedLocally] = useState(false);
-  console.log("Dados exatos do Post:", post);
-  const authorName = post?.author?.name || "Anônimo";
+  const authorName = post?.authorName || "Anônimo";
   const username = authorName.toLowerCase().replace(/\s+/g, "");
   const formattedDate = post?.createdAt
     ? new Intl.DateTimeFormat("pt-BR", {
@@ -79,10 +78,10 @@ export default function PostCard({ post }: PostProps) {
         <p className="text-[16px] leading-6.5 text-[#CBD5E1]">{post.content}</p>
       </div>
 
-      {post.imageUrl && (
+      {post.image && (
         <div className="mt-2 w-full overflow-hidden rounded-lg bg-[#01274E]">
           <img
-            src={post.imageUrl}
+            src={post.image}
             alt="Anexo"
             className="max-h-75 w-full object-cover"
           />

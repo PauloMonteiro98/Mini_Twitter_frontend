@@ -5,14 +5,12 @@ export interface User {
 }
 
 export interface Post {
-  id: string;
+  id: number;
   title: string;
   content: string;
-  imageUrl?: string;
+  image: string | null;
   likesCount: number;
-  authorId: string;
+  authorId: number;
+  authorName: string;
   createdAt: string;
-  author: {
-    name: string;
-  };
 }
