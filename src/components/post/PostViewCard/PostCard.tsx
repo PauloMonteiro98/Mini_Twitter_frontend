@@ -1,8 +1,8 @@
-import { Heart, Trash2, Loader2 } from "lucide-react";
-import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "../../api/axios";
-import type { Post } from "../../types";
+import { Heart, Loader2, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { api } from "../../../api/axios";
+import type { Post } from "../../../types";
 
 interface PostProps {
   post: Post;

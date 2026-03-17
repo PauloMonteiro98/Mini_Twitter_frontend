@@ -2,8 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Loader2, LogOut, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../api/axios";
-import PostCard from "../../components/postCard/PostCard";
-import CreatePost from "../../components/createPost/CreatePost";
+import CreatePost from "../../components/post/PostCreationForm/CreatePost";
+import PostCard from "../../components/post/PostViewCard/PostCard";
 import type { Post } from "../../types";
 
 export default function Timeline() {

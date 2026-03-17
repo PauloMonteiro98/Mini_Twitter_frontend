@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { api } from "../../api/axios";
-import { Input } from "../../components/input/Input";
+import { Input } from "../../components/ui/input/Input";
 import { AuthLayout } from "../../layouts/AuthLayout";
 
 const loginSchema = z.object({
