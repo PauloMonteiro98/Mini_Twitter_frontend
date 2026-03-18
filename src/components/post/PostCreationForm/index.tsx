@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { api } from "../../../api/axios";
+import TextareaAutosize from "react-textarea-autosize";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ACCEPTED_IMAGE_TYPES = [
@@ -15,7 +16,8 @@ const ACCEPTED_IMAGE_TYPES = [
 ];
 
 const createPostSchema = z.object({
-  content: z.string().min(1, "O post não pode estar vazio."),
+  title: z.string().min(3, "O título precisa de pelo menos 3 caracteres."),
+  content: z.string().min(1, "O conteúdo não pode estar vazio."),
   image: z
     .any()
     .refine(
@@ -66,7 +68,7 @@ export default function CreatePost() {
       }
 
       const payload = {
-        title: data.content.substring(0, 20) + "...",
+        title: data.title,
         content: data.content,
         image: base64Image,
       };
@@ -101,16 +103,41 @@ export default function CreatePost() {
     setValue("image", undefined);
   };
 
+  const { ref: contentRef, ...contentRegister } = register("content");
+
   return (
-    <div className="flex w-160 min-h-41.25 flex-col rounded-xl border border-[#62748E] bg-[#1D293D] p-4 shadow-sm">
+    <div className="flex w-160 flex-col rounded-xl border border-[#62748E] bg-[#1D293D] p-4 shadow-sm">
       <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col">
-        <textarea
-          placeholder="E aí, o que está rolando?"
-          {...register("content")}
-          className="min-h-15 w-full resize-none bg-transparent text-lg text-white placeholder-[#62748E] outline-none"
-        />
-        {errors.content && (
-          <p className="mt-1 text-xs text-red-500">{errors.content.message}</p>
+        <div className="flex flex-col gap-1 pb-3">
+          <input
+            type="text"
+            placeholder="Título"
+            {...register("title")}
+            className="bg-transparent text-lg font-bold text-white placeholder-[#62748E]/60 outline-none p-1 py-1.5 rounded"
+          />
+
+          <TextareaAutosize
+            {...contentRegister}
+            ref={contentRef}
+            placeholder="E aí, o que está rolando?"
+            minRows={2}
+            className="w-full resize-none overflow-hidden bg-transparent text-lg text-[#CBD5E1] placeholder-[#62748E] outline-none py-2"
+          />
+        </div>
+
+        {(errors.title || errors.content) && (
+          <div className="flex flex-col gap-1 pb-3 border-b border-[#62748E]/20 mb-2">
+            {errors.title && (
+              <span className="text-xs text-red-500 font-medium px-1">
+                • {errors.title.message}
+              </span>
+            )}
+            {errors.content && (
+              <span className="text-xs text-red-500 font-medium px-1">
+                • {errors.content.message}
+              </span>
+            )}
+          </div>
         )}
 
         {imagePreview && (
