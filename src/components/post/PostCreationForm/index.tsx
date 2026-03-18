@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { api } from "../../../api/axios";
 import TextareaAutosize from "react-textarea-autosize";
+import type { CreatePostProps } from "../../../types";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ACCEPTED_IMAGE_TYPES = [
@@ -36,7 +37,7 @@ const createPostSchema = z.object({
 
 type CreatePostInputs = z.infer<typeof createPostSchema>;
 
-export default function CreatePost() {
+export default function CreatePost({ onSuccess, onCancel }: CreatePostProps) {
   const queryClient = useQueryClient();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
@@ -80,6 +81,7 @@ export default function CreatePost() {
       reset();
       setImagePreview(null);
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+      onSuccess?.();
     },
   });
 
@@ -107,6 +109,11 @@ export default function CreatePost() {
 
   return (
     <div className="flex w-160 flex-col rounded-xl border border-[#62748E] bg-[#1D293D] p-4 shadow-sm">
+      <div className="flex justify-end mb-2">
+        <button onClick={onCancel} className="text-[#62748E] hover:text-white">
+          <X className="h-5 w-5" />
+        </button>
+      </div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col">
         <div className="flex flex-col gap-1 pb-3">
           <input
@@ -121,6 +128,7 @@ export default function CreatePost() {
             ref={contentRef}
             placeholder="E aí, o que está rolando?"
             minRows={2}
+            id="content"
             className="w-full resize-none overflow-hidden bg-transparent text-lg text-[#CBD5E1] placeholder-[#62748E] outline-none py-2"
           />
         </div>
