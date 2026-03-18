@@ -6,6 +6,7 @@ import { getLoggedUserId } from "../../../utils/auth";
 import { Heart, Trash2, Loader2, Edit3, X, Check } from "lucide-react";
 import type { Post } from "../../../types";
 import type { PostUpdatePayload } from "../../../types";
+import TextareaAutosize from "react-textarea-autosize";
 
 interface PostProps {
   post: Post;
@@ -16,6 +17,7 @@ export default function PostCard({ post }: PostProps) {
   const currentUserId = getLoggedUserId();
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(post.content);
+  const [editTitle, setEditTitle] = useState(post.title);
   const [likesCount, setLikesCount] = useState(post.likesCount);
   const [isLikedLocally, setIsLikedLocally] = useState(() => {
     const likedPosts = JSON.parse(
@@ -29,7 +31,7 @@ export default function PostCard({ post }: PostProps) {
   const updateMutation = useMutation({
     mutationFn: async () => {
       const payload: PostUpdatePayload = {
-        title: post.title || editContent.substring(0, 20).padEnd(3, "."),
+        title: editTitle || editContent.substring(0, 20).padEnd(3, "."),
         content: editContent,
       };
 
@@ -90,8 +92,16 @@ export default function PostCard({ post }: PostProps) {
   const authorName = post?.authorName || "Anônimo";
   const username = authorName.toLowerCase().replace(/\s+/g, "");
 
+  const formattedDate = post?.createdAt
+    ? new Intl.DateTimeFormat("pt-BR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      }).format(new Date(post.createdAt))
+    : "-";
+
   return (
-    <div className="group relative flex w-160 flex-col gap-5.5 rounded-xl border border-[#62748E] bg-[#1D293D] p-4 shadow-sm">
+    <div className="group relative flex w-160 flex-col gap-3 rounded-xl border border-[#62748E] bg-[#1D293D] p-4 shadow-sm">
       {isOwner && !isEditing && (
         <div className="absolute right-4 top-4 flex gap-2 opacity-0 transition-all group-hover:opacity-100">
           <button
@@ -120,21 +130,33 @@ export default function PostCard({ post }: PostProps) {
       <div className="flex items-center gap-1.5">
         <span className="font-bold text-white">{authorName}</span>
         <span className="text-sm text-[#6E767D]">@{username}</span>
+        <span className="text-sm text-[#6E767D]">·</span>
+        <span className="text-sm text-[#6E767D]">{formattedDate}</span>
       </div>
-      <div className="flex w-full flex-col gap-2">
+      <div className="flex w-full flex-col gap-1">
         {isEditing ? (
-          <div className="flex flex-col gap-2">
-            <textarea
+          <div className="flex flex-col">
+            <input
+              type="text"
+              value={editTitle}
+              onChange={(e) => setEditTitle(e.target.value)}
+              placeholder="Título"
+              className="bg-transparent text-[18px] font-bold text-white placeholder:text-[#62748E] outline-none"
+            />
+            <TextareaAutosize
+              id="content"
               value={editContent}
               onChange={(e) => setEditContent(e.target.value)}
-              className="w-full rounded-lg border border-[#62748E] bg-[#0F172B] p-2 text-[#CBD5E1] outline-none focus:border-twitter-blue"
+              placeholder="Editando..."
+              className="w-full resize-none overflow-hidden bg-transparent text-[16px] text-[#CBD5E1] placeholder-[#62748E] outline-none py-2"
               rows={3}
             />
-            <div className="flex justify-end gap-2">
+            <div className="flex justify-end gap-4">
               <button
                 onClick={() => {
                   setIsEditing(false);
                   setEditContent(post.content);
+                  setEditTitle(post.title);
                 }}
                 className="flex items-center gap-1 text-sm text-[#6E767D] hover:text-white"
               >
@@ -158,7 +180,7 @@ export default function PostCard({ post }: PostProps) {
         ) : (
           <>
             {post.title && (
-              <h3 className="text-lg font-bold text-white">{post.title}</h3>
+              <h3 className="text-[18px] font-bold text-white">{post.title}</h3>
             )}
             <p className="text-[16px] leading-6.5 text-[#CBD5E1] whitespace-pre-wrap">
               {post.content}
@@ -175,7 +197,7 @@ export default function PostCard({ post }: PostProps) {
           />
         </div>
       )}
-      <div className="mt-1 flex w-full items-center">
+      <div className="flex w-full items-center">
         <button
           onClick={handleLike}
           className="group/like flex items-center gap-2"

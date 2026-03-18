@@ -1,10 +1,10 @@
 import { useAuthStore } from "../../store/useAuthStore";
 import { useMutation, useInfiniteQuery } from "@tanstack/react-query";
-import { Loader2, LogOut, Search } from "lucide-react";
+import { Loader2, LogOut, Search, ImagePlus } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { api } from "../../api/axios";
-import CreatePost from "../../components/post/PostCreationForm/CreatePost";
-import PostCard from "../../components/post/PostViewCard/PostCard";
+import CreatePost from "../../components/post/PostCreationForm";
+import PostCard from "../../components/post/PostCard";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
 import { getLoggedUserId } from "../../utils/auth";
@@ -22,6 +22,7 @@ export default function Timeline() {
   const currentUserId = getLoggedUserId();
   const isGuest = !currentUserId;
   const { ref, inView } = useInView();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {
     data,
@@ -131,7 +132,40 @@ export default function Timeline() {
       </header>
 
       <main className="mx-auto flex w-160 flex-col gap-6 pb-20 pt-24.25">
-        {!isGuest && <CreatePost />}
+        {!isGuest && (
+          <div 
+            onClick={() => setIsModalOpen(true)}
+            className="cursor-pointer flex flex-col pb-4 items-center justify-center rounded-xl border border-[#62748E] bg-[#1D293D] p-5 w-full h-41.25 text-[#62748E] hover:border-twitter-blue hover:bg-[#1D293D]/90 transition-all shadow-sm"
+          >
+            <p className="text-[18px] w-full text-left font-medium">
+              E aí, o que está rolando?
+            </p>
+            
+            <div className="mt-auto flex justify-between items-center border-t border-[#62748E]/20 pt-4 w-full">
+              <ImagePlus className="h-8 w-8 text-twitter-blue opacity-70" />
+              <div className="flex items-center justify-center h-9 px-4.5 rounded-full bg-twitter-blue font-bold text-white shadow-lg">
+                Postar
+              </div>
+            </div>
+          </div>
+        )}
+
+        {isModalOpen && (
+          <div 
+            className="fixed inset-0 z-100 flex items-start justify-center bg-[#0B1120]/90 backdrop-blur-sm pt-24.25 px-4"
+            onClick={() => setIsModalOpen(false)}
+          >
+            <div 
+              className="w-full max-w-160 animate-in fade-in zoom-in duration-200"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <CreatePost 
+                onSuccess={() => setIsModalOpen(false)} 
+                onCancel={() => setIsModalOpen(false)} 
+              />
+            </div>
+          </div>
+        )}
 
         {isLoading && (
           <div className="flex h-40 items-center justify-center">

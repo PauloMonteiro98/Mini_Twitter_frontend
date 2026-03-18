@@ -26,3 +26,8 @@ export type PostUpdatePayload = {
   content: string;
   image?: string; 
 };
+
+export interface CreatePostProps {
+  onSuccess?: () => void;
+  onCancel?: () => void;
+}
