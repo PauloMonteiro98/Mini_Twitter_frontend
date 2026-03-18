@@ -173,7 +173,7 @@ export default function CreatePost({ onSuccess, onCancel }: CreatePostProps) {
         <div className="mt-2 flex items-center justify-between border-t border-[#62748E]/30 pt-3">
           <div className="flex items-center">
             <label className="cursor-pointer text-twitter-blue transition-colors hover:text-blue-400">
-              <ImagePlus className="h-6 w-6" />
+              <ImagePlus className="h-8 w-8" />
               <input
                 type="file"
                 accept="image/png, image/jpeg, image/jpg, image/webp"
