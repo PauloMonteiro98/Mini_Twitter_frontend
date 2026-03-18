@@ -90,6 +90,14 @@ export default function PostCard({ post }: PostProps) {
   const authorName = post?.authorName || "Anônimo";
   const username = authorName.toLowerCase().replace(/\s+/g, "");
 
+  const formattedDate = post?.createdAt
+    ? new Intl.DateTimeFormat("pt-BR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      }).format(new Date(post.createdAt))
+    : "-";
+
   return (
     <div className="group relative flex w-160 flex-col gap-5.5 rounded-xl border border-[#62748E] bg-[#1D293D] p-4 shadow-sm">
       {isOwner && !isEditing && (
@@ -120,6 +128,8 @@ export default function PostCard({ post }: PostProps) {
       <div className="flex items-center gap-1.5">
         <span className="font-bold text-white">{authorName}</span>
         <span className="text-sm text-[#6E767D]">@{username}</span>
+        <span className="text-sm text-[#6E767D]">·</span>
+        <span className="text-sm text-[#6E767D]">{formattedDate}</span>
       </div>
       <div className="flex w-full flex-col gap-2">
         {isEditing ? (
