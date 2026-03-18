@@ -193,7 +193,7 @@ export default function PostCard({ post }: PostProps) {
           <img
             src={post.image}
             alt="Anexo"
-            className="max-h-75 w-full object-cover"
+            className="max-h-100 w-full object-cover"
           />
         </div>
       )}
