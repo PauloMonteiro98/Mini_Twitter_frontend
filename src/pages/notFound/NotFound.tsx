@@ -6,7 +6,7 @@ export default function NotFound() {
   const navigate = useNavigate();
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#0B1120] px-4 text-center">
+    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-bg-primary px-4 text-center">
       <span className="pointer-events-none select-none text-[12rem] font-black text-twitter-blue/5 sm:text-[20rem]">
         404
       </span>
@@ -17,10 +17,10 @@ export default function NotFound() {
         className="absolute inset-0 flex flex-col items-center justify-center gap-6"
       >
         <div className="space-y-2">
-          <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+          <h1 className="text-4xl font-extrabold tracking-tight text-title-primary sm:text-5xl">
             Página não encontrada
           </h1>
-          <p className="mx-auto max-w-sm text-lg text-slate-400">
+          <p className="mx-auto max-w-sm text-lg text-text-muted">
             Parece que a página que você está procurando nunca existiu.
           </p>
         </div>

@@ -5,12 +5,39 @@
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
   --spacing-btn-h: 56px;
   --color-twitter-blue: #0D93F2;
+
+  --color-title-primary: #ffffff;
+  --color-bg-primary: #0F172B;
+  --color-bg-secondary: #1D293D;
+  --color-bg-tertiary: #162032;
+  --color-border: #62748E;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #CBD5E1;
+  --color-text-muted: #90A1B9;
+  --color-text-register: #ffffff;
+  --color-btn-Logout-primary-bg: #1D293D;
+  --color-btn-Logout-primary-text: #ffffff;
 }
 
 @layer base {
   body {
-    @apply bg-[#0B1120] text-white antialiased;
+    background-color: var(--color-bg-primary);
+    @apply text-white antialiased transition-colors duration-300;
     min-height: 100vh;
+  }
+
+  html.light {
+    --color-title-primary: #0D93F2;
+    --color-bg-primary: #F0F2F5;
+    --color-bg-secondary: #FFFFFF;
+    --color-bg-tertiary: #E7ECF0;
+    --color-border: #CFD9DE;
+    --color-text-primary: #314158;
+    --color-text-secondary: #3E4C59;
+    --color-text-muted: #62748E;
+    --color-text-register: #62748E;
+    --color-btn-Logout-primary-bg: #0D93F2;
+    --color-btn-Logout-primary-text: #ffffff;
   }
 
   main, .flex {

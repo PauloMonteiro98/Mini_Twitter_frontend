@@ -7,10 +7,10 @@ export function PostHeader({
 }: PostHeaderProps) {
   return (
     <div className="flex items-center gap-1.5">
-      <span className="font-bold text-white">{authorName}</span>
-      <span className="text-sm text-[#6E767D]">@{username}</span>
-      <span className="text-sm text-[#6E767D]">·</span>
-      <span className="text-sm text-[#6E767D]">{formattedDate}</span>
+      <span className="font-bold text-text-primary">{authorName}</span>
+      <span className="text-sm text-text-muted">@{username}</span>
+      <span className="text-sm text-text-muted">·</span>
+      <span className="text-sm text-text-muted">{formattedDate}</span>
     </div>
   );
 }
