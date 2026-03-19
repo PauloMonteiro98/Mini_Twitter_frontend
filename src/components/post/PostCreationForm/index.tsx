@@ -102,9 +102,12 @@ export default function PostCreationForm({
   };
 
   return (
-    <div className="flex w-160 flex-col rounded-xl border border-[#62748E] bg-[#1D293D] p-4 shadow-sm">
+    <div className="flex w-160 flex-col rounded-xl border border-border bg-bg-secondary p-4 shadow-sm">
       <div className="flex justify-end mb-2">
-        <button onClick={onCancel} className="text-[#62748E] hover:text-white">
+        <button
+          onClick={onCancel}
+          className="text-text-muted hover:text-text-primary"
+        >
           <X className="h-5 w-5" />
         </button>
       </div>
@@ -126,7 +129,7 @@ export default function PostCreationForm({
           onRemoveImage={removeImage}
         />
 
-        <div className="mt-2 flex items-center justify-between border-t border-[#62748E]/30 pt-3">
+        <div className="mt-2 flex items-center justify-between border-t border-border/30 pt-3">
           <div className="flex items-center">
             <PostImageUploadButton
               register={restImageRegister}

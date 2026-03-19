@@ -24,7 +24,7 @@ export function PostImagePreview({
           <img
             src={imagePreview}
             alt="Pré-visualização"
-            className="max-h-100 rounded-lg border border-[#62748E] object-cover"
+            className="max-h-100 rounded-lg border border-border object-cover"
           />
           <button
             type="button"

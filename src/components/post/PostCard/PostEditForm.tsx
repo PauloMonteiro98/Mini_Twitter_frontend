@@ -18,20 +18,20 @@ export function PostEditForm({
         value={editTitle}
         onChange={(e) => onChangeTitle(e.target.value)}
         placeholder="Título"
-        className="bg-transparent text-[18px] font-bold text-white placeholder:text-[#62748E] outline-none"
+        className="bg-transparent text-[18px] font-bold text-text-primary placeholder:text-text-muted outline-none"
       />
       <TextareaAutosize
         id="content"
         value={editContent}
         onChange={(e) => onChangeContent(e.target.value)}
         placeholder="Editando..."
-        className="w-full resize-none overflow-hidden bg-transparent text-[16px] text-[#CBD5E1] placeholder-[#62748E] outline-none py-2"
+        className="w-full resize-none overflow-hidden bg-transparent text-[16px] text-text-secondary placeholder:text-text-muted outline-none py-2"
         rows={3}
       />
       <div className="flex justify-end gap-4">
         <button
           onClick={onCancel}
-          className="flex items-center gap-1 text-sm text-[#6E767D] hover:text-white"
+          className="flex items-center gap-1 text-sm text-text-muted hover:text-text-primary"
         >
           <X className="h-4 w-4" /> Cancelar
         </button>

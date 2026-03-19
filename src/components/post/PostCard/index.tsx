@@ -121,7 +121,7 @@ export default function PostCard({ post }: PostProps) {
     : "-";
 
   return (
-    <div className="group relative flex w-160 flex-col gap-3 rounded-xl border border-[#62748E] bg-[#1D293D] p-4 shadow-sm">
+    <div className="group relative flex w-160 flex-col gap-3 rounded-xl border border-border bg-bg-secondary transition-all p-4 shadow-sm">
       {isOwner && !isEditing && (
         <PostActions
           isDeleting={deleteMutation.isPending}
@@ -156,9 +156,11 @@ export default function PostCard({ post }: PostProps) {
         ) : (
           <>
             {post.title && (
-              <h3 className="text-[18px] font-bold text-white">{post.title}</h3>
+              <h3 className="text-[16px] font-bold text-text-primary">
+                {post.title}
+              </h3>
             )}
-            <p className="text-[16px] leading-6.5 text-[#CBD5E1] whitespace-pre-wrap">
+            <p className="text-[16px] leading-6.5 text-text-primary whitespace-pre-wrap">
               {post.content}
             </p>
           </>
@@ -166,7 +168,7 @@ export default function PostCard({ post }: PostProps) {
       </div>
 
       {!isEditing && post.image && (
-        <div className="mt-2 w-full overflow-hidden rounded-lg bg-[#01274E]">
+        <div className="mt-2 w-full overflow-hidden rounded-lg bg-bg-tertiary">
           <img
             src={post.image}
             alt="Anexo"

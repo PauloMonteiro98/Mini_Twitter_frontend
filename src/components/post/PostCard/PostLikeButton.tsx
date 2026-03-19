@@ -9,9 +9,9 @@ export function PostLikeButton({
   return (
     <button onClick={onLike} className="group/like flex items-center gap-2">
       <Heart
-        className={`h-6 w-6 ${isLiked ? "fill-[#EB5757] text-[#EB5757]" : "text-[#62748E]"}`}
+        className={`h-6 w-6 ${isLiked ? "fill-[#EB5757] text-[#EB5757]" : "text-[#EB5757]"}`}
       />
-      <span className="text-sm text-[#62748E]">{likesCount}</span>
+      <span className="text-sm text-text-muted">{likesCount}</span>
     </button>
   );
 }

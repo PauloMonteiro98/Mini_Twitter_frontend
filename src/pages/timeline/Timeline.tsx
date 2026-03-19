@@ -72,7 +72,7 @@ export default function Timeline() {
   });
 
   return (
-    <div className="relative min-h-screen bg-linear-to-br from-[#0F172B] to-[#070B14]">
+    <div className="relative min-h-screen bg-bg-primary transition-all">
       <TimelineHeader
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -86,7 +86,7 @@ export default function Timeline() {
 
         {isModalOpen && (
           <div
-            className="fixed inset-0 z-100 flex items-start justify-center bg-[#0B1120]/90 backdrop-blur-sm pt-24.25 px-4"
+            className="fixed inset-0 z-100 flex items-start justify-center bg-bg-primary/90 backdrop-blur-sm pt-24.25 px-4"
             onClick={() => setIsModalOpen(false)}
           >
             <div
@@ -125,12 +125,12 @@ export default function Timeline() {
           {isFetchingNextPage ? (
             <Loader2 className="h-6 w-6 animate-spin text-twitter-blue" />
           ) : hasNextPage ? (
-            <span className="text-[#62748E] text-sm italic">
+            <span className="text-text-muted text-sm italic">
               Carregando mais...
             </span>
           ) : (
             data && (
-              <span className="text-[#62748E] text-sm">Fim da timeline</span>
+              <span className="text-text-muted text-sm">Fim da timeline</span>
             )
           )}
         </div>

@@ -1,5 +1,5 @@
-import type { PostActionsProps } from "@/types/Index";
 import { Edit3, Loader2, Trash2 } from "lucide-react";
+import type { PostActionsProps } from "@/types/Index";
 
 export function PostActions({
   isDeleting,
@@ -10,7 +10,7 @@ export function PostActions({
     <div className="absolute right-4 top-4 flex gap-2 opacity-0 transition-all group-hover:opacity-100">
       <button
         onClick={onEdit}
-        className="text-[#62748E] hover:text-twitter-blue"
+        className="text-text-muted hover:text-twitter-blue"
         title="Editar"
       >
         <Edit3 className="h-5 w-5" />
@@ -18,7 +18,7 @@ export function PostActions({
       <button
         onClick={onDelete}
         disabled={isDeleting}
-        className="text-[#62748E] hover:text-red-500 disabled:opacity-50"
+        className="text-text-muted hover:text-red-500 disabled:opacity-50"
         title="Excluir"
       >
         {isDeleting ? (
