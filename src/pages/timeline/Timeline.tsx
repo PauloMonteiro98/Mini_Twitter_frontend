@@ -1,0 +1,134 @@
+import { useAuthStore } from "../../store/useAuthStore";
+import { useMutation, useInfiniteQuery } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { api } from "../../api/axios";
+import { useInView } from "react-intersection-observer";
+import { useEffect, useState } from "react";
+import { getLoggedUserId } from "../../utils/auth";
+
+import CreatePost from "../../components/post/PostCreationForm";
+import PostCard from "../../components/post/PostCard";
+import { TimelineHeader } from "./TimelineHeader";
+import { PostModal } from "./PostModal";
+import type { Post } from "../../types";
+
+export default function Timeline() {
+  const navigate = useNavigate();
+  const logoutUser = useAuthStore((state) => state.logout);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const currentUserId = getLoggedUserId();
+  const isGuest = !currentUserId;
+  const { ref, inView } = useInView();
+
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+  } = useInfiniteQuery({
+    queryKey: ["posts", searchTerm],
+    queryFn: async ({ pageParam = 1 }) => {
+      const response = await api.get("/posts", {
+        params: { page: pageParam, search: searchTerm || undefined },
+      });
+      const resData = response.data;
+      const postsArray = Array.isArray(resData)
+        ? resData
+        : resData?.data || resData?.posts || [];
+
+      return {
+        posts: postsArray,
+        nextPage:
+          postsArray.length === 10 ? (pageParam as number) + 1 : undefined,
+      };
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+  });
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) fetchNextPage();
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      await api.post("/auth/logout");
+    },
+    onSettled: () => {
+      logoutUser();
+      navigate("/timeline");
+    },
+  });
+
+  return (
+    <div className="relative min-h-screen bg-linear-to-br from-[#0F172B] to-[#070B14]">
+      <TimelineHeader
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        isGuest={isGuest}
+        logoutLoading={logoutMutation.isPending}
+        onLogout={() => logoutMutation.mutate()}
+      />
+
+      <main className="mx-auto flex w-160 flex-col gap-6 pb-20 pt-24.25">
+        {!isGuest && <PostModal onClick={() => setIsModalOpen(true)} />}
+
+        {isModalOpen && (
+          <div
+            className="fixed inset-0 z-100 flex items-start justify-center bg-[#0B1120]/90 backdrop-blur-sm pt-24.25 px-4"
+            onClick={() => setIsModalOpen(false)}
+          >
+            <div
+              className="w-full max-w-160 animate-in fade-in zoom-in duration-200"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <CreatePost
+                onSuccess={() => setIsModalOpen(false)}
+                onCancel={() => setIsModalOpen(false)}
+              />
+            </div>
+          </div>
+        )}
+
+        {isLoading ? (
+          <div className="flex h-40 items-center justify-center">
+            <Loader2 className="h-8 w-8 animate-spin text-twitter-blue" />
+          </div>
+        ) : isError ? (
+          <div className="p-4 text-center text-red-500">
+            Erro ao carregar os posts.
+          </div>
+        ) : (
+          <div className="flex flex-col gap-8">
+            {data?.pages.map((page, i) => (
+              <div key={i} className="flex flex-col gap-8">
+                {page.posts.map((post: Post) => (
+                  <PostCard key={post.id} post={post} />
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div ref={ref} className="flex justify-center p-8">
+          {isFetchingNextPage ? (
+            <Loader2 className="h-6 w-6 animate-spin text-twitter-blue" />
+          ) : hasNextPage ? (
+            <span className="text-[#62748E] text-sm italic">
+              Carregando mais...
+            </span>
+          ) : (
+            data && (
+              <span className="text-[#62748E] text-sm">Fim da timeline</span>
+            )
+          )}
+        </div>
+      </main>
+    </div>
+  );
+}

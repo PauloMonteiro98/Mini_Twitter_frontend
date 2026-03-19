@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
-import Timeline from "./pages/timeline/index";
+import Timeline from "./pages/timeline/Timeline";
 
 const queryClient = new QueryClient();
 
