@@ -9,6 +9,12 @@ import { getLoggedUserId } from "@/utils/auth";
 
 import type { Post, PostUpdatePayload } from "@/types";
 
+const getLikedPostsKey = (userId: string | number) =>
+  `@MiniTwitter:likedPosts:${userId}`;
+
+const getLikedPosts = (userId: string | number): number[] =>
+  JSON.parse(localStorage.getItem(getLikedPostsKey(userId)) || "[]");
+
 interface PostProps {
   post: Post;
 }
@@ -16,19 +22,19 @@ interface PostProps {
 export default function PostCard({ post }: PostProps) {
   const queryClient = useQueryClient();
   const currentUserId = getLoggedUserId();
+
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(post.content);
   const [editTitle, setEditTitle] = useState(post.title);
   const [likesCount, setLikesCount] = useState(post.likesCount);
   const [isLikedLocally, setIsLikedLocally] = useState(() => {
-    const likedPosts = JSON.parse(
-      localStorage.getItem("@MiniTwitter:likedPosts") || "[]",
-    );
-    return likedPosts.includes(post.id);
+    if (!currentUserId) return false;
+    return getLikedPosts(currentUserId).includes(post.id);
   });
 
   const isOwner =
     currentUserId != null && String(currentUserId) === String(post.authorId);
+
   const updateMutation = useMutation({
     mutationFn: async () => {
       const payload: PostUpdatePayload = {
@@ -79,12 +85,24 @@ export default function PostCard({ post }: PostProps) {
   });
 
   const handleLike = async () => {
+    if (!currentUserId) return;
+
     const newState = !isLikedLocally;
+    const likedPosts = getLikedPosts(currentUserId);
+    const key = getLikedPostsKey(currentUserId);
+
+    const updated = newState
+      ? [...likedPosts, post.id]
+      : likedPosts.filter((id) => id !== post.id);
+    localStorage.setItem(key, JSON.stringify(updated));
+
     setIsLikedLocally(newState);
     setLikesCount((prev) => (newState ? prev + 1 : prev - 1));
+
     try {
       await api.post(`/posts/${post.id}/like`);
     } catch {
+      localStorage.setItem(key, JSON.stringify(likedPosts));
       setIsLikedLocally(!newState);
       setLikesCount((prev) => (!newState ? prev + 1 : prev - 1));
     }

@@ -16,6 +16,7 @@ export interface Post {
   content: string;
   image: string | null;
   likesCount: number;
+  isLikedByCurrentUser: boolean
   authorId: number;
   authorName: string;
   createdAt: string;
