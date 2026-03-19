@@ -16,7 +16,7 @@ import { TimelineHeader } from "./TimelineHeader";
 import { useDebounce } from "@/hooks/useDebounce";
 import { getLoggedUserId } from "@/utils/auth";
 
-import type { Post } from "@/types";
+import type { Post } from "@/types/Index";
 
 export default function Timeline() {
   const navigate = useNavigate();
@@ -121,7 +121,7 @@ export default function Timeline() {
           </div>
         )}
 
-        <div ref={ref} className="flex justify-center p-8">
+        <div ref={ref} className="flex justify-center p-32">
           {isFetchingNextPage ? (
             <Loader2 className="h-6 w-6 animate-spin text-twitter-blue" />
           ) : hasNextPage ? (

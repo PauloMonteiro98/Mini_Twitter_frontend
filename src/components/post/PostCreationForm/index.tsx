@@ -1,14 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ImagePlus, Loader2, X } from "lucide-react";
+import { Loader2, X } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import TextareaAutosize from "react-textarea-autosize";
 import { z } from "zod";
 
 import { api } from "@/api";
+import type { CreatePostProps } from "@/types/Index";
 
-import type { CreatePostProps } from "@/types";
+import { PostCreationFormFields } from "./PostCreationFormFields";
+import { PostFormErrors } from "./PostFormErrors";
+import { PostImagePreview, PostImageUploadButton } from "./PostImageUpload";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ACCEPTED_IMAGE_TYPES = [
@@ -22,7 +24,7 @@ const createPostSchema = z.object({
   title: z.string().min(3, "O título precisa de pelo menos 3 caracteres."),
   content: z.string().min(1, "O conteúdo não pode estar vazio."),
   image: z
-    .any()
+    .instanceof(FileList)
     .refine(
       (files) => !files || files.length === 0 || files[0].size <= MAX_FILE_SIZE,
       "A imagem não pode ultrapassar 5MB.",
@@ -39,7 +41,10 @@ const createPostSchema = z.object({
 
 type CreatePostInputs = z.infer<typeof createPostSchema>;
 
-export default function PostCreationForm({ onSuccess, onCancel }: CreatePostProps) {
+export default function PostCreationForm({
+  onSuccess,
+  onCancel,
+}: CreatePostProps) {
   const queryClient = useQueryClient();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
@@ -53,30 +58,25 @@ export default function PostCreationForm({ onSuccess, onCancel }: CreatePostProp
     resolver: zodResolver(createPostSchema),
   });
 
-  const convertFileToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
+  const convertFileToBase64 = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => resolve(reader.result as string);
       reader.onerror = (error) => reject(error);
     });
-  };
 
   const createPostMutation = useMutation({
     mutationFn: async (data: CreatePostInputs) => {
       let base64Image = undefined;
-
       if (data.image && data.image.length > 0) {
         base64Image = await convertFileToBase64(data.image[0]);
       }
-
-      const payload = {
+      const response = await api.post("/posts", {
         title: data.title,
         content: data.content,
         image: base64Image,
-      };
-
-      const response = await api.post("/posts", payload);
+      });
       return response.data;
     },
     onSuccess: () => {
@@ -87,27 +87,19 @@ export default function PostCreationForm({ onSuccess, onCancel }: CreatePostProp
     },
   });
 
-  const onSubmit = (data: CreatePostInputs) => {
-    createPostMutation.mutate(data);
-  };
-
-  const { onChange, ...restImageRegister } = register("image");
+  const { onChange: onImageChange, ...restImageRegister } = register("image");
+  const { ref: contentRef, ...contentRegister } = register("content");
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const previewUrl = URL.createObjectURL(file);
-      setImagePreview(previewUrl);
-    }
-    onChange(e);
+    if (file) setImagePreview(URL.createObjectURL(file));
+    onImageChange(e);
   };
 
   const removeImage = () => {
     setImagePreview(null);
     setValue("image", undefined);
   };
-
-  const { ref: contentRef, ...contentRegister } = register("content");
 
   return (
     <div className="flex w-160 flex-col rounded-xl border border-[#62748E] bg-[#1D293D] p-4 shadow-sm">
@@ -116,76 +108,31 @@ export default function PostCreationForm({ onSuccess, onCancel }: CreatePostProp
           <X className="h-5 w-5" />
         </button>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col">
-        <div className="flex flex-col gap-1 pb-3">
-          <input
-            type="text"
-            placeholder="Título"
-            {...register("title")}
-            className="bg-transparent text-lg font-bold text-white placeholder-[#62748E]/60 outline-none p-1 py-1.5 rounded"
-          />
+      <form
+        onSubmit={handleSubmit((data) => createPostMutation.mutate(data))}
+        className="flex w-full flex-col"
+      >
+        <PostCreationFormFields
+          titleRegister={register("title")}
+          contentRegister={contentRegister}
+          contentRef={contentRef}
+        />
 
-          <TextareaAutosize
-            {...contentRegister}
-            ref={contentRef}
-            placeholder="E aí, o que está rolando?"
-            minRows={2}
-            id="content"
-            className="w-full resize-none overflow-hidden bg-transparent text-lg text-[#CBD5E1] placeholder-[#62748E] outline-none py-2"
-          />
-        </div>
+        <PostFormErrors errors={errors} />
 
-        {(errors.title || errors.content) && (
-          <div className="flex flex-col gap-1 pb-3 border-b border-[#62748E]/20 mb-2">
-            {errors.title && (
-              <span className="text-xs text-red-500 font-medium px-1">
-                • {errors.title.message}
-              </span>
-            )}
-            {errors.content && (
-              <span className="text-xs text-red-500 font-medium px-1">
-                • {errors.content.message}
-              </span>
-            )}
-          </div>
-        )}
-
-        {imagePreview && (
-          <div className="relative mt-3 w-fit">
-            <img
-              src={imagePreview}
-              alt="Pré-visualização"
-              className="max-h-100 rounded-lg border border-[#62748E] object-cover"
-            />
-            <button
-              type="button"
-              onClick={removeImage}
-              className="absolute right-2 top-2 rounded-full bg-black/60 p-1 text-white hover:bg-black"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          </div>
-        )}
-        {errors.image && (
-          <p className="mt-1 text-xs text-red-500">
-            {errors.image.message as string}
-          </p>
-        )}
+        <PostImagePreview
+          imagePreview={imagePreview}
+          imageError={errors.image?.message as string | undefined}
+          onRemoveImage={removeImage}
+        />
 
         <div className="mt-2 flex items-center justify-between border-t border-[#62748E]/30 pt-3">
           <div className="flex items-center">
-            <label className="cursor-pointer text-twitter-blue transition-colors hover:text-blue-400">
-              <ImagePlus className="h-8 w-8" />
-              <input
-                type="file"
-                accept="image/png, image/jpeg, image/jpg, image/webp"
-                className="hidden"
-                onChange={handleImageChange}
-                {...restImageRegister}
-              />
-            </label>
+            <PostImageUploadButton
+              register={restImageRegister}
+              onImageChange={handleImageChange}
+            />
           </div>
-
           <button
             type="submit"
             disabled={isSubmitting || createPostMutation.isPending}

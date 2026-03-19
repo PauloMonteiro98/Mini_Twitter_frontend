@@ -1,13 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
-import { Check, Edit3, Heart, Loader2, Trash2, X } from "lucide-react";
 import { useState } from "react";
-import TextareaAutosize from "react-textarea-autosize";
 
 import { api } from "@/api";
 import { getLoggedUserId } from "@/utils/auth";
 
-import type { Post, PostUpdatePayload } from "@/types";
+import { PostActions } from "./PostActions";
+import { PostEditForm } from "./PostEditForm";
+import { PostHeader } from "./PostHeader";
+import { PostLikeButton } from "./PostLikeButton";
+
+import type { Post, PostUpdatePayload } from "@/types/Index";
 
 const getLikedPostsKey = (userId: string | number) =>
   `@MiniTwitter:likedPosts:${userId}`;
@@ -58,7 +61,6 @@ export default function PostCard({ post }: PostProps) {
     onError: (error) => {
       if (isAxiosError(error)) {
         console.error("Erro detalhado do backend:", error.response?.data);
-
         if (error.response?.status === 403) {
           alert("Erro 403: Você não tem permissão para editar este post.");
         } else if (error.response?.status === 400) {
@@ -110,7 +112,6 @@ export default function PostCard({ post }: PostProps) {
 
   const authorName = post?.authorName || "Anônimo";
   const username = authorName.toLowerCase().replace(/\s+/g, "");
-
   const formattedDate = post?.createdAt
     ? new Intl.DateTimeFormat("pt-BR", {
         day: "2-digit",
@@ -122,80 +123,36 @@ export default function PostCard({ post }: PostProps) {
   return (
     <div className="group relative flex w-160 flex-col gap-3 rounded-xl border border-[#62748E] bg-[#1D293D] p-4 shadow-sm">
       {isOwner && !isEditing && (
-        <div className="absolute right-4 top-4 flex gap-2 opacity-0 transition-all group-hover:opacity-100">
-          <button
-            onClick={() => setIsEditing(true)}
-            className="text-[#62748E] hover:text-twitter-blue"
-            title="Editar"
-          >
-            <Edit3 className="h-5 w-5" />
-          </button>
-          <button
-            onClick={() => {
-              if (confirm("Deseja excluir?")) deleteMutation.mutate();
-            }}
-            disabled={deleteMutation.isPending}
-            className="text-[#62748E] hover:text-red-500 disabled:opacity-50"
-            title="Excluir"
-          >
-            {deleteMutation.isPending ? (
-              <Loader2 className="h-5 w-5 animate-spin" />
-            ) : (
-              <Trash2 className="h-5 w-5" />
-            )}
-          </button>
-        </div>
+        <PostActions
+          isDeleting={deleteMutation.isPending}
+          onEdit={() => setIsEditing(true)}
+          onDelete={() => {
+            if (confirm("Deseja excluir?")) deleteMutation.mutate();
+          }}
+        />
       )}
-      <div className="flex items-center gap-1.5">
-        <span className="font-bold text-white">{authorName}</span>
-        <span className="text-sm text-[#6E767D]">@{username}</span>
-        <span className="text-sm text-[#6E767D]">·</span>
-        <span className="text-sm text-[#6E767D]">{formattedDate}</span>
-      </div>
+
+      <PostHeader
+        authorName={authorName}
+        username={username}
+        formattedDate={formattedDate}
+      />
+
       <div className="flex w-full flex-col gap-1">
         {isEditing ? (
-          <div className="flex flex-col">
-            <input
-              type="text"
-              value={editTitle}
-              onChange={(e) => setEditTitle(e.target.value)}
-              placeholder="Título"
-              className="bg-transparent text-[18px] font-bold text-white placeholder:text-[#62748E] outline-none"
-            />
-            <TextareaAutosize
-              id="content"
-              value={editContent}
-              onChange={(e) => setEditContent(e.target.value)}
-              placeholder="Editando..."
-              className="w-full resize-none overflow-hidden bg-transparent text-[16px] text-[#CBD5E1] placeholder-[#62748E] outline-none py-2"
-              rows={3}
-            />
-            <div className="flex justify-end gap-4">
-              <button
-                onClick={() => {
-                  setIsEditing(false);
-                  setEditContent(post.content);
-                  setEditTitle(post.title);
-                }}
-                className="flex items-center gap-1 text-sm text-[#6E767D] hover:text-white"
-              >
-                <X className="h-4 w-4" /> Cancelar
-              </button>
-              <button
-                onClick={() => updateMutation.mutate()}
-                disabled={updateMutation.isPending}
-                className="flex items-center gap-1 rounded-md bg-twitter-blue px-3 py-1 text-sm font-bold text-white hover:bg-[#0B7DCE] disabled:opacity-50"
-              >
-                {updateMutation.isPending ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <>
-                    <Check className="h-4 w-4" /> Salvar
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
+          <PostEditForm
+            editTitle={editTitle}
+            editContent={editContent}
+            isSaving={updateMutation.isPending}
+            onChangeTitle={setEditTitle}
+            onChangeContent={setEditContent}
+            onSave={() => updateMutation.mutate()}
+            onCancel={() => {
+              setIsEditing(false);
+              setEditContent(post.content);
+              setEditTitle(post.title);
+            }}
+          />
         ) : (
           <>
             {post.title && (
@@ -207,6 +164,7 @@ export default function PostCard({ post }: PostProps) {
           </>
         )}
       </div>
+
       {!isEditing && post.image && (
         <div className="mt-2 w-full overflow-hidden rounded-lg bg-[#01274E]">
           <img
@@ -216,16 +174,13 @@ export default function PostCard({ post }: PostProps) {
           />
         </div>
       )}
+
       <div className="flex w-full items-center">
-        <button
-          onClick={handleLike}
-          className="group/like flex items-center gap-2"
-        >
-          <Heart
-            className={`h-6 w-6 ${isLikedLocally ? "fill-[#EB5757] text-[#EB5757]" : "text-[#62748E]"}`}
-          />
-          <span className="text-sm text-[#62748E]">{likesCount}</span>
-        </button>
+        <PostLikeButton
+          isLiked={isLikedLocally}
+          likesCount={likesCount}
+          onLike={handleLike}
+        />
       </div>
     </div>
   );
