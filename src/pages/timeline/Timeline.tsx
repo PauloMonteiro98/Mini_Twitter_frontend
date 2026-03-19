@@ -1,18 +1,22 @@
-import { useAuthStore } from "../../store/useAuthStore";
-import { useMutation, useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { api } from "../../api/axios";
-import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
-import { getLoggedUserId } from "../../utils/auth";
+import { useInView } from "react-intersection-observer";
+import { useNavigate } from "react-router-dom";
 
-import CreatePost from "../../components/post/PostCreationForm";
-import PostCard from "../../components/post/PostCard";
-import { TimelineHeader } from "./TimelineHeader";
+import { api } from "@/api";
+import { useAuthStore } from "@/store/useAuthStore";
+
+import PostCard from "@/components/post/postCard";
+import PostCreationForm from "@/components/post/postCreationForm";
+
 import { PostModal } from "./PostModal";
-import { useDebounce } from "../../hooks/useDebounce";
-import type { Post } from "../../types";
+import { TimelineHeader } from "./TimelineHeader";
+
+import { useDebounce } from "@/hooks/useDebounce";
+import { getLoggedUserId } from "@/utils/auth";
+
+import type { Post } from "@/types";
 
 export default function Timeline() {
   const navigate = useNavigate();
@@ -89,7 +93,7 @@ export default function Timeline() {
               className="w-full max-w-160 animate-in fade-in zoom-in duration-200"
               onClick={(e) => e.stopPropagation()}
             >
-              <CreatePost
+              <PostCreationForm
                 onSuccess={() => setIsModalOpen(false)}
                 onCancel={() => setIsModalOpen(false)}
               />

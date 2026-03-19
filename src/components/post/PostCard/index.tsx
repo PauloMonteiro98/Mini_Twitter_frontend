@@ -1,12 +1,13 @@
-import { isAxiosError } from "axios";
-import { api } from "../../../api/axios";
-import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { getLoggedUserId } from "../../../utils/auth";
-import { Heart, Trash2, Loader2, Edit3, X, Check } from "lucide-react";
-import type { Post } from "../../../types";
-import type { PostUpdatePayload } from "../../../types";
+import { isAxiosError } from "axios";
+import { Check, Edit3, Heart, Loader2, Trash2, X } from "lucide-react";
+import { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
+
+import { api } from "@/api";
+import { getLoggedUserId } from "@/utils/auth";
+
+import type { Post, PostUpdatePayload } from "@/types";
 
 interface PostProps {
   post: Post;

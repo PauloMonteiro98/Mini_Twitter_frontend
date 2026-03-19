@@ -3,10 +3,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ImagePlus, Loader2, X } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { api } from "../../../api/axios";
 import TextareaAutosize from "react-textarea-autosize";
-import type { CreatePostProps } from "../../../types";
+import { z } from "zod";
+
+import { api } from "@/api";
+
+import type { CreatePostProps } from "@/types";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ACCEPTED_IMAGE_TYPES = [
@@ -37,7 +39,7 @@ const createPostSchema = z.object({
 
 type CreatePostInputs = z.infer<typeof createPostSchema>;
 
-export default function CreatePost({ onSuccess, onCancel }: CreatePostProps) {
+export default function PostCreationForm({ onSuccess, onCancel }: CreatePostProps) {
   const queryClient = useQueryClient();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
