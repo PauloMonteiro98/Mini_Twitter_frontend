@@ -11,12 +11,14 @@ import CreatePost from "../../components/post/PostCreationForm";
 import PostCard from "../../components/post/PostCard";
 import { TimelineHeader } from "./TimelineHeader";
 import { PostModal } from "./PostModal";
+import { useDebounce } from "../../hooks/useDebounce";
 import type { Post } from "../../types";
 
 export default function Timeline() {
   const navigate = useNavigate();
   const logoutUser = useAuthStore((state) => state.logout);
   const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const currentUserId = getLoggedUserId();
@@ -31,7 +33,7 @@ export default function Timeline() {
     isLoading,
     isError,
   } = useInfiniteQuery({
-    queryKey: ["posts", searchTerm],
+    queryKey: ["posts", debouncedSearchTerm],
     queryFn: async ({ pageParam = 1 }) => {
       const response = await api.get("/posts", {
         params: { page: pageParam, search: searchTerm || undefined },
