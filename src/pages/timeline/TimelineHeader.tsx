@@ -20,14 +20,14 @@ export function TimelineHeader({
   return (
     <header className="fixed top-0 z-50 flex h-16.25 w-full items-center border-b border-border bg-bg-primary/80 transition-all px-10 backdrop-blur-md">
       <div className="flex w-1/4">
-        <h1 className="text-[18px] font-bold tracking-tight text-title-primary whitespace-nowrap">
+        <h1 className="text-[18px] h-5.75 w-25 font-bold tracking-tight text-title-primary whitespace-nowrap transition-all">
           Mini Twitter
         </h1>
       </div>
 
       <div className="flex flex-1 justify-center">
-        <div className="flex h-10 w-full max-w-160 items-center gap-2 rounded-full bg-bg-secondary px-4 border border-border focus-within:border-twitter-blue transition-all">
-          <Search className="h-5 w-5 text-text-muted" />
+        <div className="flex h-10 w-149.25 max-w-160 items-center gap-2 rounded-full bg-bg-secondary px-4 border border-border focus-within:border-twitter-blue transition-all">
+          <Search className="h-4.5 w-4.5 text-text-muted" />
           <input
             type="text"
             value={searchTerm}

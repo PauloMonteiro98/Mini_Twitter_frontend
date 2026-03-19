@@ -139,7 +139,7 @@ export default function PostCreationForm({
           <button
             type="submit"
             disabled={isSubmitting || createPostMutation.isPending}
-            className="flex h-9 w-21.25 items-center justify-center rounded-full bg-twitter-blue text-sm font-bold text-white shadow-[0_4px_6px_-1px_rgba(13,147,242,0.2)] transition-all hover:bg-blue-500 disabled:opacity-50"
+            className="flex h-8.25 w-23 items-center justify-center rounded-full bg-twitter-blue text-sm font-bold text-white shadow-[0_4px_6px_-1px_rgba(13,147,242,0.2)] transition-all hover:bg-blue-500 disabled:opacity-50"
           >
             {createPostMutation.isPending ? (
               <Loader2 className="h-4 w-4 animate-spin" />

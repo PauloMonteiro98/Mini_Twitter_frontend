@@ -17,6 +17,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { getLoggedUserId } from "@/utils/auth";
 
 import type { Post } from "@/types/Index";
+import { TimelineFooter } from "./TimelineFooter";
 
 export default function Timeline() {
   const navigate = useNavigate();
@@ -135,6 +136,7 @@ export default function Timeline() {
           )}
         </div>
       </main>
+      <TimelineFooter />
     </div>
   );
 }
