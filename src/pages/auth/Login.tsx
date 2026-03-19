@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import { api } from "../../api/axios";
+import { api } from "../../api";
 import { Input } from "../../components/ui/input/Input";
 import { AuthLayout } from "../../layouts/AuthLayout";
 import { useAuthStore } from "../../store/useAuthStore";
