@@ -18,14 +18,14 @@ export function PostEditForm({
         value={editTitle}
         onChange={(e) => onChangeTitle(e.target.value)}
         placeholder="Título"
-        className="bg-transparent text-[18px] font-bold text-text-primary placeholder:text-text-muted outline-none"
+        className="bg-transparent text-[16px] font-bold text-text-primary placeholder:text-text-muted outline-none"
       />
       <TextareaAutosize
         id="content"
         value={editContent}
         onChange={(e) => onChangeContent(e.target.value)}
         placeholder="Editando..."
-        className="w-full resize-none overflow-hidden bg-transparent text-[16px] text-text-secondary placeholder:text-text-muted outline-none py-2"
+        className="w-full resize-none overflow-hidden bg-transparent text-[16px] text-text-primary placeholder:text-text-muted outline-none py-1.5"
         rows={3}
       />
       <div className="flex justify-end gap-4">

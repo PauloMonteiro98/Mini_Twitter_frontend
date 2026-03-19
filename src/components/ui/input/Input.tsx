@@ -18,7 +18,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <input
             ref={ref}
             {...props}
-            className="w-full h-14 bg-bg-secondary border border-border rounded-lg px-4 text-[16px] text-text-muted placeholder:text-text-muted outline-none focus:border-twitter-blue transition-all"
+            className="w-full h-14.25 bg-bg-secondary border border-border rounded-lg px-4 text-[16px] text-text-muted placeholder:text-text-muted outline-none focus:border-twitter-blue transition-all"
           />
           <Icon className="absolute right-4 h-6 w-6 text-text-muted" />
         </div>

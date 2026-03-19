@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 export interface User {
   id: string;
   name: string;
@@ -8,6 +10,13 @@ export interface AuthState {
   isAuthenticated: boolean;
   login: (userData: User, token: string) => void;
   logout: () => void;
+}
+
+export interface AuthLayoutProps {
+  children: ReactNode;
+  title: string;
+  subtitle: string;
+  activeTab: "login" | "register";
 }
 
 export interface Post {

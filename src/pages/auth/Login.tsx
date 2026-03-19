@@ -82,7 +82,7 @@ export default function Login() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="mt-2 w-full h-14 bg-twitter-blue rounded-full text-[16px] font-bold text-white shadow-[0px_10px_15px_-3px_rgba(13,147,242,0.2)] hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
+          className="w-full h-14 bg-twitter-blue rounded-full text-[16px] font-bold text-white shadow-[0px_10px_15px_-3px_rgba(13,147,242,0.2)] hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
         >
           {isSubmitting ? (
             <Loader2 className="h-5 w-5 animate-spin" />
