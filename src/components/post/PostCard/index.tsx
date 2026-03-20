@@ -5,12 +5,12 @@ import { useState } from "react";
 import { api } from "@/api";
 import { getLoggedUserId } from "@/utils/auth";
 
-import { PostActions } from "./PostActions";
+import { PostActions } from "./PostDelete";
 import { PostEditForm } from "./PostEditForm";
 import { PostHeader } from "./PostHeader";
 import { PostLikeButton } from "./PostLikeButton";
 
-import type { Post, PostUpdatePayload } from "@/types/Index";
+import type { Post, PostUpdatePayload } from "@/types/index";
 
 const getLikedPostsKey = (userId: string | number) =>
   `@MiniTwitter:likedPosts:${userId}`;

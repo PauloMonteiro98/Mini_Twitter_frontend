@@ -1,4 +1,4 @@
-import type { PostEditFormProps } from "@/types/Index";
+import type { PostEditFormProps } from "@/types/index";
 import { Check, Loader2, X } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
 

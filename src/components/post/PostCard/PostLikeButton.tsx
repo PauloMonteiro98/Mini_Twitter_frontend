@@ -1,4 +1,4 @@
-import type { PostLikeButtonProps } from "@/types/Index";
+import type { PostLikeButtonProps } from "@/types/index";
 import { Heart } from "lucide-react";
 
 export function PostLikeButton({

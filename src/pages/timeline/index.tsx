@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useNavigate } from "react-router-dom";
 
-import { api } from "@/api";
+import { api } from "@/api/index";
 import { useAuthStore } from "@/store/useAuthStore";
 
 import PostCard from "@/components/post/postCard";
-import PostCreationForm from "@/components/post/postCreationForm";
+import PostCreationForm from "@/components/post/postCreationForm/index";
 
 import { PostModal } from "./PostModal";
 import { TimelineHeader } from "./TimelineHeader";
@@ -16,7 +16,7 @@ import { TimelineHeader } from "./TimelineHeader";
 import { useDebounce } from "@/hooks/useDebounce";
 import { getLoggedUserId } from "@/utils/auth";
 
-import type { Post } from "@/types/Index";
+import type { Post } from "@/types/index";
 import { TimelineFooter } from "./TimelineFooter";
 
 export default function Timeline() {
@@ -73,7 +73,7 @@ export default function Timeline() {
   });
 
   return (
-    <div className="relative min-h-screen bg-bg-primary transition-all">
+    <div className="relative min-h-screen">
       <TimelineHeader
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
