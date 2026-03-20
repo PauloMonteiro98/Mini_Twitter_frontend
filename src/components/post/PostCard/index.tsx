@@ -12,12 +12,6 @@ import { PostLikeButton } from "./PostLikeButton";
 
 import type { Post, PostUpdatePayload } from "@/types/index";
 
-const getLikedPostsKey = (userId: string | number) =>
-  `@MiniTwitter:likedPosts:${userId}`;
-
-const getLikedPosts = (userId: string | number): number[] =>
-  JSON.parse(localStorage.getItem(getLikedPostsKey(userId)) || "[]");
-
 interface PostProps {
   post: Post;
 }
@@ -29,11 +23,7 @@ export default function PostCard({ post }: PostProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(post.content);
   const [editTitle, setEditTitle] = useState(post.title);
-  const [likesCount, setLikesCount] = useState(post.likesCount);
-  const [isLikedLocally, setIsLikedLocally] = useState(() => {
-    if (!currentUserId) return false;
-    return getLikedPosts(currentUserId).includes(post.id);
-  });
+  const [isLiked, setIsLiked] = useState(false);
 
   const isOwner =
     currentUserId != null && String(currentUserId) === String(post.authorId);
@@ -89,24 +79,14 @@ export default function PostCard({ post }: PostProps) {
   const handleLike = async () => {
     if (!currentUserId) return;
 
-    const newState = !isLikedLocally;
-    const likedPosts = getLikedPosts(currentUserId);
-    const key = getLikedPostsKey(currentUserId);
-
-    const updated = newState
-      ? [...likedPosts, post.id]
-      : likedPosts.filter((id) => id !== post.id);
-    localStorage.setItem(key, JSON.stringify(updated));
-
-    setIsLikedLocally(newState);
-    setLikesCount((prev) => (newState ? prev + 1 : prev - 1));
+    const previousState = isLiked;
+    setIsLiked(!previousState);
 
     try {
       await api.post(`/posts/${post.id}/like`);
-    } catch {
-      localStorage.setItem(key, JSON.stringify(likedPosts));
-      setIsLikedLocally(!newState);
-      setLikesCount((prev) => (!newState ? prev + 1 : prev - 1));
+    } catch (error) {
+      setIsLiked(previousState);
+      console.error("Erro ao curtir post:", error);
     }
   };
 
@@ -182,11 +162,7 @@ export default function PostCard({ post }: PostProps) {
       )}
 
       <div className="flex w-full items-center">
-        <PostLikeButton
-          isLiked={isLikedLocally}
-          likesCount={likesCount}
-          onLike={handleLike}
-        />
+        <PostLikeButton isLiked={isLiked} onLike={handleLike} />
       </div>
     </div>
   );

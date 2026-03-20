@@ -3,7 +3,6 @@ import { Heart } from "lucide-react";
 
 export function PostLikeButton({
   isLiked,
-  likesCount,
   onLike,
 }: PostLikeButtonProps) {
   return (
@@ -11,7 +10,6 @@ export function PostLikeButton({
       <Heart
         className={`h-6 w-6 ${isLiked ? "fill-[#EB5757] text-[#EB5757]" : "text-[#EB5757]"}`}
       />
-      <span className="text-sm text-text-muted">{likesCount}</span>
     </button>
   );
 }

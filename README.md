@@ -41,7 +41,7 @@ Este projeto é uma aplicação de rede social inspirada no Twitter, desenvolvid
 - Confirmação antes de excluir
 
 ### Interação Social
-- Sistema de curtidas com UI otimista (atualização imediata do contador)
+- Sistema de curtidas com UI otimista
 - Rollback automático de estado em caso de falha na API
 
 ### Interface

@@ -24,7 +24,6 @@ export interface Post {
   title: string;
   content: string;
   image: string | null;
-  likesCount: number;
   isLikedByCurrentUser: boolean;
   authorId: number;
   authorName: string;
@@ -66,6 +65,5 @@ export interface PostEditFormProps {
 
 export interface PostLikeButtonProps {
   isLiked: boolean;
-  likesCount: number;
   onLike: () => void;
 }
