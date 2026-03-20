@@ -6,7 +6,7 @@ export function PostModal({ onClick }: { onClick: () => void }) {
       onClick={onClick}
       className="cursor-pointer flex flex-col items-center justify-center rounded-xl border border-border bg-bg-secondary p-4 w-full h-41 text-text-muted hover:border-twitter-blue hover:bg-bg-secondary/90 transition-all shadow-md"
     >
-      <p className="text-[18px] w-full text-left font-medium text-text-muted">
+      <p className="text-[18px] px-3 pt-2 w-full text-left font-medium text-text-muted">
         E aí, o que está rolando?
       </p>
       <div className="mt-auto flex justify-between items-center border-t border-border/20 pt-4 w-full">

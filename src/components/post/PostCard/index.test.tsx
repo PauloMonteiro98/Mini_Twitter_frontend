@@ -57,7 +57,7 @@ describe('Componente PostCard', () => {
     render(<PostCard post={mockPost} />);
 
     expect(screen.getByText('João Silva')).toBeInTheDocument();
-    expect(screen.getByText(/@\s*joãosilva/i)).toBeInTheDocument();
+    expect(screen.getByText(/@\s*joaosilva/i)).toBeInTheDocument();
     expect(screen.getByText('Meu Título de Teste')).toBeInTheDocument();
     expect(screen.getByText('Conteúdo do post de teste.')).toBeInTheDocument();
     expect(screen.getByText('10')).toBeInTheDocument();

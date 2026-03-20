@@ -18,7 +18,7 @@ export function PostCreationFormFields({
         type="text"
         placeholder="Título"
         {...titleRegister}
-        className="bg-transparent text-lg font-bold text-text-muted placeholder:text-text-muted/60 outline-none py-1.5 rounded"
+        className="bg-transparent text-lg font-bold px-3 pt-2 text-text-muted placeholder:text-text-muted/60 outline-none rounded"
       />
       <TextareaAutosize
         {...contentRegister}
@@ -26,7 +26,7 @@ export function PostCreationFormFields({
         placeholder="E aí, o que está rolando?"
         minRows={2}
         id="content"
-        className="w-full resize-none overflow-hidden bg-transparent text-lg text-text-muted placeholder:text-text-muted outline-none py-2"
+        className="w-full resize-none overflow-hidden px-3 pt-2 bg-transparent text-lg text-text-muted placeholder:text-text-muted outline-none"
       />
     </div>
   );

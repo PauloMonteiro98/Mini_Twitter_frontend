@@ -111,7 +111,11 @@ export default function PostCard({ post }: PostProps) {
   };
 
   const authorName = post?.authorName || "Anônimo";
-  const username = authorName.toLowerCase().replace(/\s+/g, "");
+  const username = authorName
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "");
   const formattedDate = post?.createdAt
     ? new Intl.DateTimeFormat("pt-BR", {
         day: "2-digit",
