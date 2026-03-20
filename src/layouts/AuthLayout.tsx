@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import type { AuthLayoutProps } from "@/types/Index";
+import type { AuthLayoutProps } from "@/types/index";
 
 export function AuthLayout({
   children,

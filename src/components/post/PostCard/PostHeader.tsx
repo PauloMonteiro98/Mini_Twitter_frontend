@@ -1,4 +1,4 @@
-import type { PostHeaderProps } from "@/types/Index";
+import type { PostHeaderProps } from "@/types/index";
 
 export function PostHeader({
   authorName,
