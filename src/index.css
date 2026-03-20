@@ -7,7 +7,7 @@
   --color-twitter-blue: #0D93F2;
 
   --color-title-primary: #ffffff;
-  --color-bg-primary: linear-gradient(116.82deg, #0F172B 0%, #070B14 100%);
+  --color-bg-primary: #0B1120;
   --color-bg-secondary: #1D293D;
   --color-bg-tertiary: #162032;
   --color-border: #62748E;
@@ -21,9 +21,31 @@
 
 @layer base {
   body {
-    background: var(--color-bg-primary);
-    @apply text-white antialiased transition-colors duration-300;
+    position: relative;
+    background-color: var(--color-bg-primary);
+    transition: background-color 300ms ease-in-out;
+    @apply text-white antialiased;
     min-height: 100vh;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(116.82deg, #0F172B 0%, #070B14 100%);
+    opacity: 1;
+    transition: opacity 300ms ease-in-out;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  html.light body::before {
+    opacity: 0;
+  }
+
+  body > * {
+    position: relative;
+    z-index: 1;
   }
 
   html.light {
@@ -38,6 +60,16 @@
     --color-text-register: #62748E;
     --color-btn-Logout-primary-bg: #0D93F2;
     --color-btn-Logout-primary-text: #ffffff;
+  }
+
+  *, *::before, *::after {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-duration: 300ms;
+    transition-timing-function: ease-in-out;
+  }
+
+  body::before {
+    transition: opacity 300ms ease-in-out;
   }
 
   main, .flex {
