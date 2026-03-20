@@ -7,7 +7,7 @@
   --color-twitter-blue: #0D93F2;
 
   --color-title-primary: #ffffff;
-  --color-bg-primary: #0F172B;
+  --color-bg-primary: linear-gradient(116.82deg, #0F172B 0%, #070B14 100%);
   --color-bg-secondary: #1D293D;
   --color-bg-tertiary: #162032;
   --color-border: #62748E;
@@ -21,7 +21,7 @@
 
 @layer base {
   body {
-    background-color: var(--color-bg-primary);
+    background: var(--color-bg-primary);
     @apply text-white antialiased transition-colors duration-300;
     min-height: 100vh;
   }

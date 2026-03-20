@@ -5,8 +5,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { api } from "@/api";
-import type { CreatePostProps } from "@/types/Index";
+import { api } from "@/api/index";
+import type { CreatePostProps } from "@/types/index";
 
 import { PostCreationFormFields } from "./PostCreationFormFields";
 import { PostFormErrors } from "./PostFormErrors";
