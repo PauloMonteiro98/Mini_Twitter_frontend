@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from "react";
-import Timeline from "./pages/timeline/Index";
+import Timeline from "./pages/timeline/index";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import NotFound from "./pages/notFound/NotFound";
