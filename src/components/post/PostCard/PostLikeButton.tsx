@@ -6,7 +6,7 @@ export function PostLikeButton({
   onLike,
 }: PostLikeButtonProps) {
   return (
-    <button onClick={onLike} className="group/like flex items-center gap-2">
+    <button onClick={onLike} className="group/like flex items-center gap-2" aria-label="curtir">
       <Heart
         className={`h-6 w-6 ${isLiked ? "fill-[#EB5757] text-[#EB5757]" : "text-[#EB5757]"}`}
       />
