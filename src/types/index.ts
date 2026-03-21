@@ -56,9 +56,11 @@ export interface PostActionsProps {
 export interface PostEditFormProps {
   editTitle: string;
   editContent: string;
+  editImage: string | undefined;
   isSaving: boolean;
   onChangeTitle: (value: string) => void;
   onChangeContent: (value: string) => void;
+  onChangeImage: (value: string | undefined) => void;
   onSave: () => void;
   onCancel: () => void;
 }

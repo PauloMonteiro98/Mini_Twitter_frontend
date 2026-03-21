@@ -23,6 +23,9 @@ export default function PostCard({ post }: PostProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(post.content);
   const [editTitle, setEditTitle] = useState(post.title);
+  const [editImage, setEditImage] = useState<string | undefined>(
+    post.image ?? undefined,
+  );
   const [isLiked, setIsLiked] = useState(false);
 
   const isOwner =
@@ -35,8 +38,8 @@ export default function PostCard({ post }: PostProps) {
         content: editContent,
       };
 
-      if (typeof post.image === "string" && post.image.trim() !== "") {
-        payload.image = post.image;
+      if (typeof editImage === "string" && editImage.trim() !== "") {
+        payload.image = editImage;
       } else {
         delete payload.image;
       }
@@ -90,6 +93,13 @@ export default function PostCard({ post }: PostProps) {
     }
   };
 
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setEditContent(post.content);
+    setEditTitle(post.title);
+    setEditImage(post.image ?? undefined);
+  };
+
   const authorName = post?.authorName || "Anônimo";
   const username = authorName
     .normalize("NFD")
@@ -127,15 +137,13 @@ export default function PostCard({ post }: PostProps) {
           <PostEditForm
             editTitle={editTitle}
             editContent={editContent}
+            editImage={editImage}
             isSaving={updateMutation.isPending}
             onChangeTitle={setEditTitle}
             onChangeContent={setEditContent}
+            onChangeImage={setEditImage}
             onSave={() => updateMutation.mutate()}
-            onCancel={() => {
-              setIsEditing(false);
-              setEditContent(post.content);
-              setEditTitle(post.title);
-            }}
+            onCancel={handleCancelEdit}
           />
         ) : (
           <>
@@ -161,9 +169,11 @@ export default function PostCard({ post }: PostProps) {
         </div>
       )}
 
-      <div className="flex w-full items-center">
-        <PostLikeButton isLiked={isLiked} onLike={handleLike} />
-      </div>
+      {!isEditing && (
+        <div className="flex w-full items-center">
+          <PostLikeButton isLiked={isLiked} onLike={handleLike} />
+        </div>
+      )}
     </div>
   );
 }
