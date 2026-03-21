@@ -23,8 +23,8 @@ export function AuthLayout({
               to="/login"
               className={`flex-1 pb-3 text-center text-[16px] leading-6 font-bold transition-colors ${
                 activeTab === "login"
-                  ? "border-b-[3px] border-twitter-blue text-text-primary"
-                  : "text-text-muted hover:text-text-primary"
+                  ? "border-b-[3px] border-twitter-blue text-title-primary"
+                  : "text-text-muted"
               }`}
             >
               Login
@@ -33,8 +33,8 @@ export function AuthLayout({
               to="/register"
               className={`flex-1 pb-3 text-center text-[16px] leading-6 font-bold transition-colors ${
                 activeTab === "register"
-                  ? "border-b-[3px] border-twitter-blue text-text-primary"
-                  : "text-text-muted hover:text-text-primary"
+                  ? "border-b-[3px] border-twitter-blue text-title-primary"
+                  : "text-text-muted"
               }`}
             >
               Cadastrar
@@ -50,7 +50,7 @@ export function AuthLayout({
               transition={{ duration: 0.18, ease: "easeInOut" }}
               className="flex flex-col gap-1 py-6"
             >
-              <h2 className="text-[30px] font-bold leading-9 tracking-[-0.75px] text-text-primary">
+              <h2 className="text-[30px] font-bold leading-9 tracking-[-0.75px] text-title-primary">
                 {title}
               </h2>
               <p className="text-[16px] font-light leading-6 text-text-muted">
@@ -71,7 +71,7 @@ export function AuthLayout({
             </motion.div>
           </AnimatePresence>
 
-          <p className="px-21 mt-4 text-center text-[12px] leading-4 text-text-muted">
+          <p className="px-21 mt-4 text-center text-[12px] leading-4 text-title-muted">
             Ao clicar em continuar, você concorda com nossos{" "}
             <a
               href="#"

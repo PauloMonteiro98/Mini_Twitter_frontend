@@ -86,37 +86,38 @@ describe("Componente PostCard", () => {
 
   // --- TESTES DE CURTIDA ---
 
-it('deve implementar curtida otimista: altera ícone instantaneamente e chama API', async () => {
-  vi.mocked(api.post).mockResolvedValueOnce({ data: { success: true } });
+  it("deve implementar curtida otimista: altera ícone instantaneamente e chama API", async () => {
+    vi.mocked(api.post).mockResolvedValueOnce({ data: { success: true } });
 
-  render(<PostCard post={mockPost} />);
+    render(<PostCard post={mockPost} />);
 
-  const heartButton = screen.getByRole('button', { name: 'curtir' });
-  const heartIcon = heartButton.querySelector('svg');
+    const heartButton = screen.getByRole("button", { name: "curtir" });
+    const heartIcon = heartButton.querySelector("svg");
 
-  expect(heartIcon).not.toHaveClass('fill-[#EB5757]');
+    expect(heartIcon).not.toHaveClass("fill-[#EB5757]");
 
-  fireEvent.click(heartButton);
+    fireEvent.click(heartButton);
 
-  expect(heartIcon).toHaveClass('fill-[#EB5757]');
-  expect(api.post).toHaveBeenCalledWith(`/posts/${mockPost.id}/like`);
-});
-
-it('deve reverter o ícone (rollback) se a API de like falhar', async () => {
-  vi.mocked(api.post).mockRejectedValueOnce(new Error('Falha na API'));
-
-  render(<PostCard post={mockPost} />);
-
-  const heartButton = screen.getByRole('button', { name: 'curtir' });
-  const heartIcon = heartButton.querySelector('svg');
-
-  fireEvent.click(heartButton);
-  expect(heartIcon).toHaveClass('fill-[#EB5757]');
-
-  await waitFor(() => {
-    expect(heartIcon).not.toHaveClass('fill-[#EB5757]');
+    expect(heartIcon).toHaveClass("fill-[#EB5757]");
+    expect(api.post).toHaveBeenCalledWith(`/posts/${mockPost.id}/like`);
   });
-});
+
+  it("deve reverter o ícone (rollback) se a API de like falhar", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.mocked(api.post).mockRejectedValueOnce(new Error("Falha na API"));
+
+    render(<PostCard post={mockPost} />);
+
+    const heartButton = screen.getByRole("button", { name: "curtir" });
+    const heartIcon = heartButton.querySelector("svg");
+
+    fireEvent.click(heartButton);
+    expect(heartIcon).toHaveClass("fill-[#EB5757]");
+
+    await waitFor(() => {
+      expect(heartIcon).not.toHaveClass("fill-[#EB5757]");
+    });
+  });
 
   // --- TESTES DE EDIÇÃO ---
 
